@@ -4,33 +4,18 @@ import { verifyToken } from "@/app/lib/utils";
 
 export async function GET(req: NextRequest) {
   try {
-    const token = req.headers.get("Authorization")?.split(" ")[1];
-    const tokenIsValid = verifyToken(token ? token : "");
+    const users = await prisma.user.findMany();
 
-    if (tokenIsValid) {
-      const users = await prisma.user.findMany();
-
-      return NextResponse.json(
-        {
-          success: true,
-          message: "List Data Users",
-          data: users,
-        },
-        {
-          status: 200,
-        }
-      );
-    } else {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Unauthorized",
-        },
-        {
-          status: 401,
-        }
-      );
-    }
+    return NextResponse.json(
+      {
+        success: true,
+        message: "List Data Users",
+        data: users,
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     console.error("Error:", error);
     return NextResponse.json(

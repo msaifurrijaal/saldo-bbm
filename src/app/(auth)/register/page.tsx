@@ -99,7 +99,7 @@ const RegisterPage = () => {
           </div>
         </form>
         {error !== "" && (
-          <div className="text-red-600 mt-3 text-center">* {error}</div>
+          <div className="text-red-600 mt-3 text-sm text-center">* {error}</div>
         )}
       </div>
     </div>
