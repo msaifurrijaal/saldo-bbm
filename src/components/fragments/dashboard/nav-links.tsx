@@ -19,8 +19,8 @@ const links = [
     icon: TruckIcon,
   },
   {
-    name: "Activity",
-    href: "/dashboard/activity",
+    name: "Activities",
+    href: "/dashboard/activities",
     icon: MapIcon,
   },
   { name: "Drivers", href: "/dashboard/drivers", icon: UserGroupIcon },

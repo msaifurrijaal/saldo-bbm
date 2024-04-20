@@ -10,6 +10,7 @@ export default withAuth(mainMiddleware, [
   "/dashboard",
   "/dashboard/cars",
   "/dashboard/cars/add",
+  "/dashboard/activities",
   "/dashboard/drivers",
   "/login",
   "/register",

@@ -8,27 +8,44 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
+  id       Int        @id @default(autoincrement())
   name     String
-  email    String @unique
+  email    String     @unique
   password String
-  role     String @default("user")
+  role     String     @default("user")
   Car      Car[]
+  Activity Activity[]
 
   @@map("users")
 }
 
 model Car {
-  id              Int    @id @default(autoincrement())
-  licensePlate    String @unique
+  id              Int        @id @default(autoincrement())
+  licensePlate    String     @unique
   brand           String
   type            String
   initialBalance  Float
   currentBalance  Float
   fuelUsage       Float
   fuelConsumption Float
-  user            User   @relation(fields: [userId], references: [id])
+  user            User       @relation(fields: [userId], references: [id])
   userId          Int
+  Activity        Activity[]
 
   @@map("cars")
+}
+
+model Activity {
+  id            Int    @id @default(autoincrement())
+  user          User   @relation(fields: [userId], references: [id])
+  userId        Int
+  car           Car    @relation(fields: [carId], references: [id])
+  carId         Int
+  startLocation String
+  endLocation   String
+  distance      Float
+  status        String
+  date          String
+
+  @@map("activities")
 }

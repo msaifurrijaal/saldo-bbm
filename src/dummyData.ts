@@ -91,6 +91,47 @@ async function main() {
       },
     ],
   });
+
+  await prisma.activity.createMany({
+    data: [
+      {
+        userId: 2,
+        carId: 1,
+        startLocation: "Malang",
+        endLocation: "Blitar",
+        distance: 60,
+        status: "approve",
+        date: "20 Maret 2024",
+      },
+      {
+        userId: 3,
+        carId: 2,
+        startLocation: "Malang",
+        endLocation: "Pasuruan",
+        distance: 50,
+        status: "pending",
+        date: "21 April 2024",
+      },
+      {
+        userId: 4,
+        carId: 3,
+        startLocation: "Kediri",
+        endLocation: "Malang",
+        distance: 60,
+        status: "pending",
+        date: "18 April 2024",
+      },
+      {
+        userId: 5,
+        carId: 4,
+        startLocation: "Sidoarjo",
+        endLocation: "Surabaya",
+        distance: 40,
+        status: "pending",
+        date: "19 April 2024",
+      },
+    ],
+  });
 }
 
 main()

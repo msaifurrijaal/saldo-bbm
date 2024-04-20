@@ -1,4 +1,5 @@
-import React, { ReactNode } from "react";
+"use client";
+import React, { ReactNode, MouseEvent } from "react";
 
 type ButtonProps = {
   children?: ReactNode;

@@ -8,7 +8,6 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const Page = () => {
   const { data: session }: { data: any } = useSession();
-  console.log(session);
 
   if (session) {
     return (

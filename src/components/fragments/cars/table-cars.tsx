@@ -38,7 +38,7 @@ const TableCars = ({ carsData, isLoading }: TableCarsProps) => {
       {isLoading ? (
         <Skeleton height="220px" className="w-full mt-8" />
       ) : (
-        <div>
+        <div className="overflow-auto">
           <table className="table-auto w-full mt-4 md:mt-8 ">
             <thead>
               <tr>
@@ -49,11 +49,13 @@ const TableCars = ({ carsData, isLoading }: TableCarsProps) => {
                 <th className="border-b border-slate-300 px-4 py-2">
                   Plat Number
                 </th>
-                <th className="text-end border-b border-slate-300 py-2">
-                  ID Driver
+                <th className="border-b border-slate-300 py-2">ID Driver</th>
+                <th className="border-b border-slate-300 py-2">
+                  Fuel Consumtion
                 </th>
+                <th className="border-b border-slate-300 py-2">Fuel Balance</th>
                 <th className="text-end border-b border-slate-300 py-2">
-                  Fuel Balance
+                  Fuel Usage
                 </th>
               </tr>
             </thead>
@@ -63,9 +65,13 @@ const TableCars = ({ carsData, isLoading }: TableCarsProps) => {
                   <td className="pe-4 py-4 text-start">{index + 1}</td>
                   <td className="p-4 text-center">{car.brand}</td>
                   <td className="p-4 text-center">{car.licensePlate}</td>
-                  <td className="ps-4 py-4 text-end">{car.userId}</td>
+                  <td className="p-4 text-center">{car.userId}</td>
+                  <td className="p-4 text-center">{car.fuelConsumption} L</td>
+                  <td className="p-4 text-center">
+                    {car.currentBalance.toFixed(1)} L
+                  </td>
                   <td className="ps-4 py-4 text-end">
-                    {car.currentBalance} liter
+                    {car.fuelUsage.toFixed(1)} L
                   </td>
                 </tr>
               ))}

@@ -3,7 +3,6 @@ import prisma from "../../../../../prisma/client";
 
 export async function GET(req: NextRequest) {
   try {
-    const url = new URL(req.url);
     const urlParts = req.url.split("/");
     const userId = parseInt(urlParts[urlParts.length - 1]);
 
