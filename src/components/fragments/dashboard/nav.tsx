@@ -16,7 +16,7 @@ const Nav = () => {
         className="mb-2 flex items-end justify-start rounded-md bg-blue-600 p-4"
       >
         <div className="w-32 text-white md:w-40">
-          <h1 className="text-2xl md:text-3xl font-bold">Saldo BBM</h1>
+          <h1 className="text-2xl md:text-3xl font-bold">Fuel Management</h1>
         </div>
       </Link>
       <Link href="/dashboard" className="mb-2  rounded-md bg-gray-50 p-4">

@@ -46,6 +46,51 @@ async function main() {
       },
     ],
   });
+
+  await prisma.car.createMany({
+    data: [
+      {
+        licensePlate: "AB 1234 CD",
+        brand: "Toyota",
+        type: "MB Barang",
+        initialBalance: 10,
+        currentBalance: 10,
+        fuelUsage: 15,
+        fuelConsumption: 0,
+        userId: 2,
+      },
+      {
+        licensePlate: "CD 5678 EF",
+        brand: "Honda",
+        type: "MB Barang",
+        initialBalance: 15,
+        currentBalance: 15,
+        fuelUsage: 15,
+        fuelConsumption: 0,
+        userId: 3,
+      },
+      {
+        licensePlate: "N 8291 OR",
+        brand: "Nissan",
+        type: "MB Transport",
+        initialBalance: 15,
+        currentBalance: 15,
+        fuelUsage: 10,
+        fuelConsumption: 0,
+        userId: 4,
+      },
+      {
+        licensePlate: "N 9862 GA",
+        brand: "Suzuki",
+        type: "MB Barang",
+        initialBalance: 20,
+        currentBalance: 20,
+        fuelUsage: 18,
+        fuelConsumption: 0,
+        userId: 5,
+      },
+    ],
+  });
 }
 
 main()

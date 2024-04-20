@@ -7,7 +7,7 @@ type SearchProps = {
 
 const Search = ({ value, setTextInput }: SearchProps) => {
   return (
-    <form>
+    <form className="w-full">
       <label
         htmlFor="default-search"
         className="mb-2 text-sm font-medium sr-only"

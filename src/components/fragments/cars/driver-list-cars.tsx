@@ -1,12 +1,12 @@
 "use client";
 import Search from "@/components/elements/search/search";
-import TableDrivers from "@/components/fragments/drivers/table-drivers";
 import React, { useEffect, useState } from "react";
+import TableCars from "./table-cars";
 
-const Page = () => {
+const DriverListCars = ({ userId }: { userId: number }) => {
   const [textInput, setTextInput] = useState("");
-  const [drivers, setDrivers] = useState<User[]>([]);
-  const [driversFilter, setDriversFilter] = useState<User[]>(drivers);
+  const [cars, setCars] = useState<Car[]>([]);
+  const [carsFilters, setCarsFilters] = useState<Car[]>(cars);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -14,40 +14,40 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    setDriversFilter(drivers);
-  }, [drivers]);
+    setCarsFilters(cars);
+  }, [cars]);
 
   useEffect(() => {
-    let filteredProducts: User[] = [];
+    let filteredCars: Car[] = [];
 
-    filteredProducts = drivers.filter((driver) =>
-      driver.name.toLowerCase().includes(textInput.toLowerCase())
+    filteredCars = cars.filter((car) =>
+      car.brand.toLowerCase().includes(textInput.toLowerCase())
     );
 
-    setDriversFilter(filteredProducts);
+    setCarsFilters(filteredCars);
   }, [textInput]);
 
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch("/api/drivers");
+      const response = await fetch(`/api/cars/${userId}`);
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
       const data = await response.json();
-      setDrivers(data.data);
+      setCars(data.data);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
   return (
-    <main>
-      <h1 className=" mb-4 text-xl md:text-2xl font-semibold">Drivers</h1>
+    <div>
+      <h1 className="text-xl font-medium mb-4">List your cars</h1>
       <Search value={textInput} setTextInput={setTextInput} />
-      <TableDrivers driversData={driversFilter} isLoading={isLoading} />
-    </main>
+      <TableCars carsData={carsFilters} isLoading={isLoading} />
+    </div>
   );
 };
 
-export default Page;
+export default DriverListCars;
