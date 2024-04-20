@@ -9,6 +9,7 @@ export function mainMiddleware(request: NextRequest) {
 export default withAuth(mainMiddleware, [
   "/dashboard",
   "/dashboard/cars",
+  "/dashboard/cars/add",
   "/dashboard/drivers",
   "/login",
   "/register",

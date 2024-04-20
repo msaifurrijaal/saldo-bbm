@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../../prisma/client";
 
 export async function GET() {
@@ -13,6 +13,56 @@ export async function GET() {
       },
       {
         status: 200,
+      }
+    );
+  } catch (error) {
+    console.error("Error:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Internal server error",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const {
+      licensePlate,
+      brand,
+      type,
+      initialBalance,
+      currentBalance,
+      fuelUsage,
+      fuelConsumption,
+      userId,
+    } = await req.json();
+
+    const newCar = await prisma.car.create({
+      data: {
+        licensePlate,
+        brand,
+        type,
+        initialBalance,
+        currentBalance,
+        fuelUsage,
+        fuelConsumption,
+        userId: Number(userId),
+      },
+    });
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Car created successfully",
+        data: newCar,
+      },
+      {
+        status: 201,
       }
     );
   } catch (error) {

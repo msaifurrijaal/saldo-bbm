@@ -10,7 +10,7 @@ type TableCarsProps = {
 
 const TableCars = ({ carsData, isLoading }: TableCarsProps) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const recordPerPage = 8;
+  const recordPerPage = 5;
   const lastIndex = currentPage * recordPerPage;
   const firstIndex = lastIndex - recordPerPage;
   const records = carsData.slice(firstIndex, lastIndex);
@@ -58,7 +58,7 @@ const TableCars = ({ carsData, isLoading }: TableCarsProps) => {
               </tr>
             </thead>
             <tbody>
-              {carsData.map((car: Car, index) => (
+              {records.map((car: Car, index) => (
                 <tr key={car.id}>
                   <td className="pe-4 py-4 text-start">{index + 1}</td>
                   <td className="p-4 text-center">{car.brand}</td>

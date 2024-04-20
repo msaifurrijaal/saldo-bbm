@@ -53,7 +53,7 @@ const TableDrivers = ({ driversData, isLoading }: TableDriversProps) => {
               </tr>
             </thead>
             <tbody>
-              {driversData.map((driver: User, index) => (
+              {records.map((driver: User, index) => (
                 <tr key={driver.id}>
                   <td className="pe-4 py-4 text-start">{index + 1}</td>
                   <td className="p-4 text-center">{driver.name}</td>

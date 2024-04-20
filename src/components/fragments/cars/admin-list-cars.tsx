@@ -50,7 +50,7 @@ const AdminListCars = () => {
         <Search value={textInput} setTextInput={setTextInput} />
         <div className="w-1/12 ps-2">
           <Link
-            href=""
+            href="/dashboard/cars/add"
             className="text-white bg-blue-600 hover:bg-blue-700 rounded-md text-[8px] sm:text-sm px-4 py-2 w-full"
           >
             + Car
