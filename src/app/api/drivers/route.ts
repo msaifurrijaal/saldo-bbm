@@ -1,15 +1,18 @@
 import { NextResponse } from "next/server";
 import prisma from "../../../../prisma/client";
-import { verifyToken } from "@/app/lib/utils";
 
 export async function GET() {
   try {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      where: {
+        role: "user",
+      },
+    });
 
     return NextResponse.json(
       {
         success: true,
-        message: "List Data Users",
+        message: "List of Drivers Data",
         data: users,
       },
       {
