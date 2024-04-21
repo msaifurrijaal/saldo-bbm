@@ -64,14 +64,12 @@ const TableActivities = ({
                 >
                   Date
                 </th>
-                {role && role === "admin" && (
-                  <th className="text-end border-b border-slate-300 py-2">
-                    Action
-                  </th>
-                )}
+                <th className="text-end border-b border-slate-300 py-2">
+                  Action
+                </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="">
               {records.map((activity: Activity, index) => (
                 <tr key={activity.id}>
                   <td className="pe-4 py-4 text-start">{index + 1}</td>
@@ -100,16 +98,23 @@ const TableActivities = ({
                   >
                     {activity.date}
                   </td>
-                  {role && role === "admin" && (
-                    <td className="ps-4 py-4 text-end">
+                  <td className="ps-4 py-4 text-end">
+                    {role && role === "admin" ? (
                       <Link
                         href={`/dashboard/activities/${activity.id}`}
                         className="px-2 py-1 bg-green-500 hover:bg-green-700 rounded-md text-white"
                       >
                         Edit
                       </Link>
-                    </td>
-                  )}
+                    ) : (
+                      <Link
+                        href={`/dashboard/activities/${activity.id}`}
+                        className="px-2 py-1 bg-green-500 hover:bg-green-700 rounded-md text-white"
+                      >
+                        Detail
+                      </Link>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

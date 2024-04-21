@@ -18,7 +18,8 @@ const AdminListActivities = () => {
   }, []);
 
   useEffect(() => {
-    setActivitiesFilters(activities);
+    const reversedActivities = [...activities].reverse();
+    setActivitiesFilters(reversedActivities);
   }, [activities]);
 
   useEffect(() => {
@@ -40,8 +41,8 @@ const AdminListActivities = () => {
           .includes(textInput.toLowerCase()) ||
         activity.status.toLowerCase().includes(textInput.toLowerCase())
     );
-
-    setActivitiesFilters(filteredActivities);
+    const filteredActivitiesReversed = [...filteredActivities].reverse();
+    setActivitiesFilters(filteredActivitiesReversed);
   }, [textInput]);
 
   const fetchData = async () => {

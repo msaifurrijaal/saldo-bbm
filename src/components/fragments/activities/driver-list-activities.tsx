@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import TableActivities from "./table-activities";
 import { useSession } from "next-auth/react";
+import Search from "@/components/elements/search/search";
+import Link from "next/link";
 
 const DriverListActivities = ({ userId }: { userId: number }) => {
   const { data: session } = useSession();
@@ -17,7 +19,8 @@ const DriverListActivities = ({ userId }: { userId: number }) => {
   }, []);
 
   useEffect(() => {
-    setActivitiesFilters(activities);
+    const reversedActivities = [...activities].reverse();
+    setActivitiesFilters(reversedActivities);
   }, [activities]);
 
   useEffect(() => {
@@ -39,8 +42,8 @@ const DriverListActivities = ({ userId }: { userId: number }) => {
           .includes(textInput.toLowerCase()) ||
         activity.status.toLowerCase().includes(textInput.toLowerCase())
     );
-
-    setActivitiesFilters(filteredActivities);
+    const filteredActivitiesReversed = [...filteredActivities].reverse();
+    setActivitiesFilters(filteredActivitiesReversed);
   }, [textInput]);
 
   const fetchData = async () => {
@@ -69,8 +72,19 @@ const DriverListActivities = ({ userId }: { userId: number }) => {
   return (
     <section>
       <h1 className="text-xl font-medium mb-4">List your activities</h1>
+      <div className="flex items-center">
+        <Search value={textInput} setTextInput={setTextInput} />
+        <div className="w-1/12 ps-2">
+          <Link
+            href="/dashboard/activities/add"
+            className="text-white bg-blue-600 hover:bg-blue-700 rounded-md text-[8px] sm:text-[12px] p-2 w-full"
+          >
+            + Activity
+          </Link>
+        </div>
+      </div>
       <TableActivities
-        activitiesData={activitiesFilters}
+        activitiesData={activitiesFilters.reverse()}
         isLoading={isLoading}
         role={user.role}
       />

@@ -15,7 +15,8 @@ const AdminListCars = () => {
   }, []);
 
   useEffect(() => {
-    setCarsFilters(cars);
+    const reversedCars = [...cars].reverse();
+    setCarsFilters(reversedCars);
   }, [cars]);
 
   useEffect(() => {
@@ -25,7 +26,8 @@ const AdminListCars = () => {
       car.brand.toLowerCase().includes(textInput.toLowerCase())
     );
 
-    setCarsFilters(filteredCars);
+    const filteredCarsReserved = [...filteredCars].reverse();
+    setCarsFilters(filteredCarsReserved);
   }, [textInput]);
 
   const fetchData = async () => {

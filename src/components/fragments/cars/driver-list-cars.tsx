@@ -14,7 +14,8 @@ const DriverListCars = ({ userId }: { userId: number }) => {
   }, []);
 
   useEffect(() => {
-    setCarsFilters(cars);
+    const reversedCars = [...cars].reverse();
+    setCarsFilters(reversedCars);
   }, [cars]);
 
   useEffect(() => {
@@ -24,13 +25,15 @@ const DriverListCars = ({ userId }: { userId: number }) => {
       car.brand.toLowerCase().includes(textInput.toLowerCase())
     );
 
-    setCarsFilters(filteredCars);
+    const filteredCarsReserved = [...filteredCars].reverse();
+    setCarsFilters(filteredCarsReserved);
   }, [textInput]);
 
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`/api/cars/${userId}`);
+      const queryParams = userId ? `?user_id=${userId}` : "";
+      const response = await fetch(`/api/cars/${queryParams}`);
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }

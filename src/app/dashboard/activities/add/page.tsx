@@ -2,18 +2,21 @@
 import Button from "@/components/elements/button";
 import InputForm from "@/components/elements/input/InputForm";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const AddCar = () => {
+const AddActivity = () => {
+  const { data: session } = useSession();
+  const user: any = session?.user;
   const { push } = useRouter();
-  const [drivers, setDrivers] = useState<User[]>([]);
+  const [cars, setCars] = useState<Car[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const [driverChoice, setDriverChoice] = useState<User>();
+  const [carChoice, setCarChoice] = useState<Car>();
   const [errorMessage, setErrorMessage] = useState("");
   const [showProgramMenu, setShowProgramMenu] = useState(false);
 
@@ -22,51 +25,58 @@ const AddCar = () => {
   }, []);
 
   const fetchData = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch("/api/drivers");
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
+    if (user) {
+      try {
+        setIsLoading(true);
+        const queryParams = user.id ? `?user_id=${user.id}` : "";
+        const response = await fetch(`/api/cars/${queryParams}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const data = await response.json();
+        setCars(data.data);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        console.error("Error fetching data:", error);
       }
-      const data = await response.json();
-      setDrivers(data.data);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      console.error("Error fetching data:", error);
     }
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (driverChoice) {
+    if (carChoice) {
       setErrorMessage("");
       setSubmitError("");
       setSubmitLoading(true);
-      const res = await fetch("/api/cars", {
+      const res = await fetch("/api/activities", {
         method: "POST",
         body: JSON.stringify({
-          licensePlate: e.target.licensePlate.value,
-          brand: e.target.brand.value,
-          type: e.target.type.value,
-          initialBalance: Number(e.target.initialBalance.value),
-          currentBalance: Number(e.target.currentBalance.value),
-          fuelUsage: 0,
-          fuelConsumption: Number(e.target.fuelConsumption.value),
-          userId: driverChoice.id,
+          userId: user.id,
+          carId: carChoice.id,
+          startLocation: e.target.startLocation.value,
+          endLocation: e.target.endLocation.value,
+          distance: Number(e.target.distance.value),
+          status: "pending",
+          date: e.target.date.value,
         }),
       });
+      console.log(res);
       const data = await res.json();
+      console.log(data);
+      console.log("sudah disini");
       if (res.status === 201) {
         e.target.reset();
         setSubmitLoading(false);
-        push("/dashboard/cars");
+        push("/dashboard/activities");
       } else {
         setSubmitLoading(false);
-        setSubmitError(data.message ? data.message : "Failed to add new car");
+        setSubmitError(
+          data.message ? data.message : "Failed to add new activity"
+        );
       }
     } else {
-      setErrorMessage("Please choose driver!");
+      setErrorMessage("Please choose car!");
     }
   };
 
@@ -75,65 +85,49 @@ const AddCar = () => {
       {isLoading ? (
         <Skeleton height="420px" className="w-full" />
       ) : (
-        <>
-          <h1 className=" mb-4 text-xl md:text-2xl font-semibold">Add Car</h1>
+        <div>
+          <h1 className=" mb-4 text-xl md:text-2xl font-semibold">
+            Add Activity
+          </h1>
           <div className="w-full">
             <form onSubmit={(e) => handleSubmit(e)}>
               <h3 className="text-xl text-gray-900 ">
-                Please fill in vehicle data
+                Please fill in activity data
               </h3>
               <div className="w-full flex flex-wrap mt-2">
                 <div className="w-full md:w-1/2 md:pe-2">
                   <InputForm
-                    id="brand"
-                    title="Brand Name"
+                    id="startLocation"
+                    title="Start Location"
                     type="text"
-                    placeholder="Toyota etc.."
+                    placeholder="Malang..."
                     required={true}
                   />
                 </div>
                 <div className="w-full md:w-1/2 md:ps-2">
                   <InputForm
-                    id="type"
-                    title="Type Car"
+                    id="endLocation"
+                    title="End Location"
                     type="text"
-                    placeholder="MB Barang etc..."
+                    placeholder="Surabaya..."
                     required={true}
                   />
                 </div>
                 <div className="w-full md:w-1/2 md:pe-2 mt-4">
                   <InputForm
-                    id="licensePlate"
-                    title="Plat Number"
-                    type="text"
-                    placeholder="N 1234 ED..."
+                    id="distance"
+                    title="Distance (Km)"
+                    type="number"
+                    placeholder="60.."
                     required={true}
                   />
                 </div>
                 <div className="w-full md:w-1/2 md:ps-2 mt-4">
                   <InputForm
-                    id="initialBalance"
-                    title="Initial Balance"
-                    type="number"
-                    placeholder="12.."
-                    required={true}
-                  />
-                </div>
-                <div className="w-full md:w-1/2 md:pe-2 mt-4">
-                  <InputForm
-                    id="currentBalance"
-                    title="Current Balance"
-                    type="number"
-                    placeholder="10.."
-                    required={true}
-                  />
-                </div>
-                <div className="w-full md:w-1/2 md:ps-2 mt-4">
-                  <InputForm
-                    id="fuelConsumption"
-                    title="Fuel Consumption"
-                    type="number"
-                    placeholder="15.."
+                    id="date"
+                    title="Date"
+                    type="date"
+                    placeholder="12 Sep 2023"
                     required={true}
                   />
                 </div>
@@ -144,9 +138,7 @@ const AddCar = () => {
                       setShowProgramMenu(!showProgramMenu);
                     }}
                   >
-                    <span>
-                      {driverChoice ? driverChoice.name : "Choose Driver"}
-                    </span>
+                    <span>{carChoice ? carChoice.brand : "Choose Car"}</span>
                     {showProgramMenu ? (
                       <ChevronUpIcon className="h-6 w-6 text-gray-500" />
                     ) : (
@@ -158,17 +150,17 @@ const AddCar = () => {
                       showProgramMenu ? "block" : "hidden"
                     } z-10 overflow-y-scroll`}
                   >
-                    {drivers.map((driver, index) => {
+                    {cars.map((car, index) => {
                       return (
                         <div
                           className="option cursor-pointer px-4 py-2 hover:bg-[rgb(0,0,0,.1)]"
                           key={index}
                           onClick={() => {
-                            setDriverChoice(driver);
+                            setCarChoice(car);
                             setShowProgramMenu((prev) => !prev);
                           }}
                         >
-                          {driver.name}
+                          {car.brand}
                         </div>
                       );
                     })}
@@ -179,7 +171,6 @@ const AddCar = () => {
                     <p className="text-red-500 text-sm">* {errorMessage}</p>
                   )}
                 </div>
-
                 <div className="w-full flex justify-end mt-4">
                   <Button
                     type="submit"
@@ -197,10 +188,10 @@ const AddCar = () => {
               </div>
             </form>
           </div>
-        </>
+        </div>
       )}
     </main>
   );
 };
 
-export default AddCar;
+export default AddActivity;
