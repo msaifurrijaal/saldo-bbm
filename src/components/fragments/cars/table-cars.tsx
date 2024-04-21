@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React, { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -54,8 +55,9 @@ const TableCars = ({ carsData, isLoading }: TableCarsProps) => {
                   Fuel Consumtion
                 </th>
                 <th className="border-b border-slate-300 py-2">Fuel Balance</th>
+                <th className="border-b border-slate-300 py-2">Fuel Usage</th>
                 <th className="text-end border-b border-slate-300 py-2">
-                  Fuel Usage
+                  Action
                 </th>
               </tr>
             </thead>
@@ -70,8 +72,16 @@ const TableCars = ({ carsData, isLoading }: TableCarsProps) => {
                   <td className="p-4 text-center">
                     {car.currentBalance.toFixed(1)} L
                   </td>
-                  <td className="ps-4 py-4 text-end">
+                  <td className="p-4 text-center">
                     {car.fuelUsage.toFixed(1)} L
+                  </td>
+                  <td className="ps-4 py-4 text-end">
+                    <Link
+                      href={`/dashboard/cars/${car.id}`}
+                      className="px-2 py-1 bg-green-500 hover:bg-green-700 rounded-md text-white"
+                    >
+                      Detail
+                    </Link>
                   </td>
                 </tr>
               ))}

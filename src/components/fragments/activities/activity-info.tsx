@@ -22,7 +22,7 @@ const ActivityInfo = async ({ activityId }: { activityId: string }) => {
         <strong>End Location : </strong> {activity.endLocation}
       </p>
       <p className="mb-2">
-        <strong>Distance : </strong> {activity.distance}
+        <strong>Distance : </strong> {activity.distance} Km
       </p>
       <p className="mb-2">
         <strong>Status : </strong>{" "}
@@ -51,7 +51,9 @@ const ActivityInfo = async ({ activityId }: { activityId: string }) => {
 };
 
 async function getDetailActivity(params: string) {
-  const res = await fetch(`http://localhost:3000/api/activities/${params}`);
+  const res = await fetch(`http://localhost:3000/api/activities/${params}`, {
+    cache: "no-cache",
+  });
   if (!res.ok) {
     throw new Error("Failed to fetch data");
   }

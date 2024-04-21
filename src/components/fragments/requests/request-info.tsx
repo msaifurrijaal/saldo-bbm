@@ -17,7 +17,7 @@ const RequestInfo = async ({ requestId }: { requestId: string }) => {
         <strong>Car ID : </strong> {request.carId}
       </p>
       <p className="mb-2">
-        <strong>Fuel Amount : </strong> {request.fuelAmount}
+        <strong>Fuel Amount : </strong> {request.fuelAmount} L
       </p>
       <p className="mb-2">
         <strong>Status : </strong>{" "}
@@ -46,7 +46,9 @@ const RequestInfo = async ({ requestId }: { requestId: string }) => {
 };
 
 async function getDetailRequest(params: string) {
-  const res = await fetch(`http://localhost:3000/api/requests/${params}`);
+  const res = await fetch(`http://localhost:3000/api/requests/${params}`, {
+    cache: "no-cache",
+  });
   if (!res.ok) {
     throw new Error("Failed to fetch data");
   }

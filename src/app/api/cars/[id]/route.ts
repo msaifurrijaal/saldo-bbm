@@ -4,26 +4,33 @@ import prisma from "../../../../../prisma/client";
 export async function GET(req: NextRequest) {
   try {
     const urlParts = req.url.split("/");
-    const userId = parseInt(urlParts[urlParts.length - 1]);
+    const carId = parseInt(urlParts[urlParts.length - 1]);
 
-    if (!userId) {
+    if (!carId) {
       return NextResponse.json(
-        { success: false, message: "Missing userId parameter" },
+        { success: false, message: "Missing carId parameter" },
         { status: 400 }
       );
     }
 
-    const cars = await prisma.car.findMany({
+    const car = await prisma.car.findUnique({
       where: {
-        userId: Number(userId),
+        id: carId,
       },
     });
+
+    if (!car) {
+      return NextResponse.json(
+        { success: false, message: "Car not found" },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json(
       {
         success: true,
-        message: "List of Cars Data for User",
-        data: cars,
+        message: "Car data found",
+        data: car,
       },
       {
         status: 200,
