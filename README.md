@@ -26,8 +26,8 @@ Untuk menjalankan Fuel Management pada mesin lokal, ikuti langkah-langkah beriku
 4. Lakukan konfigurasi .env
 
 ~~~bash  
-  DATABASE_URL="isi_url_database_anda"
-  SECRET_TOKEN="isi_secret_token_anda"
+  DATABASE_URL="isi_url_database_anda" ex : "mysql://root@localhost:3306/db_saldo_bbm"
+  SECRET_TOKEN="isi_secret_token_anda" ex : "ihasbdiabibabsdoab"
 ~~~
 
 5. Jalankan proses migrasi database
