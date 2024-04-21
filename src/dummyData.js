@@ -144,7 +144,7 @@ function main() {
                                     endLocation: "Blitar",
                                     distance: 60,
                                     status: "approve",
-                                    date: "20 Maret 2024",
+                                    date: "2024-04-19",
                                 },
                                 {
                                     userId: 3,
@@ -153,7 +153,7 @@ function main() {
                                     endLocation: "Pasuruan",
                                     distance: 50,
                                     status: "pending",
-                                    date: "21 April 2024",
+                                    date: "2024-04-18",
                                 },
                                 {
                                     userId: 4,
@@ -162,7 +162,7 @@ function main() {
                                     endLocation: "Malang",
                                     distance: 60,
                                     status: "pending",
-                                    date: "18 April 2024",
+                                    date: "2024-04-20",
                                 },
                                 {
                                     userId: 5,
@@ -171,11 +171,45 @@ function main() {
                                     endLocation: "Surabaya",
                                     distance: 40,
                                     status: "pending",
-                                    date: "19 April 2024",
+                                    date: "2024-04-21",
                                 },
                             ],
                         })];
                 case 4:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.request.createMany({
+                            data: [
+                                {
+                                    userId: 2,
+                                    carId: 1,
+                                    fuelAmount: 10,
+                                    date: "2024-04-18",
+                                    status: "pending",
+                                },
+                                {
+                                    userId: 3,
+                                    carId: 2,
+                                    fuelAmount: 15,
+                                    date: "2024-04-19",
+                                    status: "pending",
+                                },
+                                {
+                                    userId: 4,
+                                    carId: 3,
+                                    fuelAmount: 8,
+                                    date: "2024-04-21",
+                                    status: "pending",
+                                },
+                                {
+                                    userId: 5,
+                                    carId: 4,
+                                    fuelAmount: 12,
+                                    date: "2024-04-20",
+                                    status: "pending",
+                                },
+                            ],
+                        })];
+                case 5:
                     _a.sent();
                     return [2 /*return*/];
             }

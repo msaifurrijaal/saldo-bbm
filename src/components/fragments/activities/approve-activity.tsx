@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const Approve = ({ activity }: { activity: Activity }) => {
+const ApproveActivity = ({ activity }: { activity: Activity }) => {
   const router = useRouter();
   const [errorApprove, setErrorApprove] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -46,4 +46,4 @@ const Approve = ({ activity }: { activity: Activity }) => {
   );
 };
 
-export default Approve;
+export default ApproveActivity;

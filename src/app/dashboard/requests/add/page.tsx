@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const AddActivity = () => {
+const AddRequest = () => {
   const { data: session } = useSession();
   const user: any = session?.user;
   const { push } = useRouter();
@@ -49,14 +49,12 @@ const AddActivity = () => {
       setErrorMessage("");
       setSubmitError("");
       setSubmitLoading(true);
-      const res = await fetch("/api/activities", {
+      const res = await fetch("/api/requests", {
         method: "POST",
         body: JSON.stringify({
           userId: user.id,
           carId: carChoice.id,
-          startLocation: e.target.startLocation.value,
-          endLocation: e.target.endLocation.value,
-          distance: Number(e.target.distance.value),
+          fuelAmount: Number(e.target.fuelAmount.value),
           status: "pending",
           date: e.target.date.value,
         }),
@@ -84,7 +82,7 @@ const AddActivity = () => {
       ) : (
         <div>
           <h1 className=" mb-4 text-xl md:text-2xl font-semibold">
-            Add Activity
+            Add Request
           </h1>
           <div className="w-full">
             <form onSubmit={(e) => handleSubmit(e)}>
@@ -94,37 +92,19 @@ const AddActivity = () => {
               <div className="w-full flex flex-wrap mt-2">
                 <div className="w-full md:w-1/2 md:pe-2">
                   <InputForm
-                    id="startLocation"
-                    title="Start Location"
-                    type="text"
-                    placeholder="Malang..."
+                    id="fuelAmount"
+                    title="Fuel Amount"
+                    type="number"
+                    placeholder="10 L..."
                     required={true}
                   />
                 </div>
                 <div className="w-full md:w-1/2 md:ps-2">
                   <InputForm
-                    id="endLocation"
-                    title="End Location"
-                    type="text"
-                    placeholder="Surabaya..."
-                    required={true}
-                  />
-                </div>
-                <div className="w-full md:w-1/2 md:pe-2 mt-4">
-                  <InputForm
-                    id="distance"
-                    title="Distance (Km)"
-                    type="number"
-                    placeholder="60.."
-                    required={true}
-                  />
-                </div>
-                <div className="w-full md:w-1/2 md:ps-2 mt-4">
-                  <InputForm
                     id="date"
                     title="Date"
                     type="date"
-                    placeholder="12 Sep 2023"
+                    placeholder="2024-12-10"
                     required={true}
                   />
                 </div>
@@ -191,4 +171,4 @@ const AddActivity = () => {
   );
 };
 
-export default AddActivity;
+export default AddRequest;

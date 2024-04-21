@@ -1,25 +1,26 @@
+"use client";
 import Link from "next/link";
 import React, { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-type TableActivitiesProps = {
-  activitiesData: Activity[];
+type TableRequestsProps = {
+  requestsData: Request[];
   isLoading: boolean;
   role: string;
 };
 
-const TableActivities = ({
-  activitiesData,
+const TableRequests = ({
+  requestsData,
   isLoading,
   role,
-}: TableActivitiesProps) => {
+}: TableRequestsProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordPerPage = 5;
   const lastIndex = currentPage * recordPerPage;
   const firstIndex = lastIndex - recordPerPage;
-  const records = activitiesData.slice(firstIndex, lastIndex);
-  const nPage = Math.ceil(activitiesData.length / recordPerPage);
+  const records = requestsData.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(requestsData.length / recordPerPage);
   const numbers = Array.from({ length: nPage }, (_, i) => i + 1);
 
   const nextPage = () => {
@@ -37,6 +38,7 @@ const TableActivities = ({
       setCurrentPage(currentPage - 1);
     }
   };
+
   return (
     <>
       {isLoading ? (
@@ -51,11 +53,7 @@ const TableActivities = ({
                 </th>
                 <th className="border-b border-slate-300 py-2">ID User</th>
                 <th className="border-b border-slate-300 py-2">ID Car</th>
-                <th className="border-b border-slate-300 py-2">
-                  Start Location
-                </th>
-                <th className="border-b border-slate-300 py-2">End Location</th>
-                <th className="border-b border-slate-300 py-2">Distance</th>
+                <th className="border-b border-slate-300 py-2">Fuel Amount</th>
                 <th className="border-b border-slate-300 py-2">Status</th>
                 <th className="border-b border-slate-300 py-2">Date</th>
                 <th className="text-end border-b border-slate-300 py-2">
@@ -63,38 +61,36 @@ const TableActivities = ({
                 </th>
               </tr>
             </thead>
-            <tbody className="">
-              {records.map((activity: Activity, index) => (
-                <tr key={activity.id}>
+            <tbody>
+              {records.map((request: Request, index) => (
+                <tr key={request.id}>
                   <td className="pe-4 py-4 text-start">{index + 1}</td>
-                  <td className="p-4 text-center">{activity.userId}</td>
-                  <td className="p-4 text-center">{activity.carId}</td>
-                  <td className="p-4 text-center">{activity.startLocation}</td>
-                  <td className="p-4 text-center">{activity.endLocation}</td>
-                  <td className="p-4 text-center">{activity.distance}</td>
+                  <td className="p-4 text-center">{request.userId}</td>
+                  <td className="p-4 text-center">{request.carId}</td>
+                  <td className="p-4 text-center">{request.fuelAmount} L</td>
                   <td className="p-4 text-center">
                     <p
                       className={`p-1 ${
-                        activity.status === "pending"
+                        request.status === "pending"
                           ? "bg-yellow-200 rounded-md"
                           : "bg-green-200 rounded-md"
                       }`}
                     >
-                      {activity.status}
+                      {request.status}
                     </p>
                   </td>
-                  <td className="p-4 text-center">{activity.date}</td>
+                  <td className="p-4 text-center">{request.date}</td>
                   <td className="ps-4 py-4 text-end">
                     {role && role === "admin" ? (
                       <Link
-                        href={`/dashboard/activities/${activity.id}`}
+                        href={`/dashboard/requests/${request.id}`}
                         className="px-2 py-1 bg-green-500 hover:bg-green-700 rounded-md text-white"
                       >
                         Edit
                       </Link>
                     ) : (
                       <Link
-                        href={`/dashboard/activities/${activity.id}`}
+                        href={`/dashboard/requests/${request.id}`}
                         className="px-2 py-1 bg-green-500 hover:bg-green-700 rounded-md text-white"
                       >
                         Detail
@@ -105,7 +101,7 @@ const TableActivities = ({
               ))}
             </tbody>
           </table>
-          {activitiesData && activitiesData.length > 0 && (
+          {requestsData && requestsData.length > 0 && (
             <div className="flex justify-center mt-6">
               <div className="flex">
                 <button
@@ -142,4 +138,4 @@ const TableActivities = ({
   );
 };
 
-export default TableActivities;
+export default TableRequests;

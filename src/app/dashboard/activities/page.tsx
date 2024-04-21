@@ -4,6 +4,8 @@ import DriverListActivities from "@/components/fragments/activities/driver-list-
 import RadioButton from "@/components/fragments/activities/radio-button";
 import AdminListCars from "@/components/fragments/cars/admin-list-cars";
 import DriverListCars from "@/components/fragments/cars/driver-list-cars";
+import AdminListRequests from "@/components/fragments/requests/admin-list-requests";
+import DriverListRequest from "@/components/fragments/requests/driver-list-request";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
@@ -29,9 +31,9 @@ const Activities = () => {
         ) : (
           <div>
             {session.user.role === "admin" ? (
-              <AdminListCars />
+              <AdminListRequests />
             ) : (
-              <DriverListCars userId={session.user.id} />
+              <DriverListRequest userId={session.user.id} />
             )}
           </div>
         )}

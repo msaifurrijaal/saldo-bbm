@@ -1,17 +1,16 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import TableActivities from "./table-activities";
-import { useSession } from "next-auth/react";
 import Search from "@/components/elements/search/search";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import TableRequests from "./table-requests";
 
-const DriverListActivities = ({ userId }: { userId: number }) => {
+const DriverListRequest = ({ userId }: { userId: number }) => {
   const { data: session } = useSession();
   const user: any = session?.user;
   const [textInput, setTextInput] = useState("");
-  const [activities, setActivities] = useState<Activity[]>([]);
-  const [activitiesFilters, setActivitiesFilters] =
-    useState<Activity[]>(activities);
+  const [requests, setRequests] = useState<Request[]>([]);
+  const [requestsFilters, setRequestsFilters] = useState<Request[]>(requests);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -19,31 +18,28 @@ const DriverListActivities = ({ userId }: { userId: number }) => {
   }, []);
 
   useEffect(() => {
-    const reversedActivities = [...activities].reverse();
-    setActivitiesFilters(reversedActivities);
-  }, [activities]);
+    const reversedRequests = [...requests].reverse();
+    setRequestsFilters(reversedRequests);
+  }, [requests]);
 
   useEffect(() => {
-    let filteredActivities: Activity[] = [];
+    let filteredRequests: Request[] = [];
 
-    filteredActivities = activities.filter(
-      (activity) =>
-        activity.startLocation
-          .toLowerCase()
-          .includes(textInput.toLowerCase()) ||
-        activity.endLocation.toLowerCase().includes(textInput.toLowerCase()) ||
-        activity.userId
+    filteredRequests = requests.filter(
+      (request: Request) =>
+        request.userId
           .toString()
           .toLowerCase()
           .includes(textInput.toLowerCase()) ||
-        activity.carId
+        request.carId
           .toString()
           .toLowerCase()
           .includes(textInput.toLowerCase()) ||
-        activity.status.toLowerCase().includes(textInput.toLowerCase())
+        request.status.toLowerCase().includes(textInput.toLowerCase()) ||
+        request.date.toLowerCase().includes(textInput.toLowerCase())
     );
-    const filteredActivitiesReversed = [...filteredActivities].reverse();
-    setActivitiesFilters(filteredActivitiesReversed);
+    const filteredRequestsReversed = [...filteredRequests].reverse();
+    setRequestsFilters(filteredRequestsReversed);
   }, [textInput]);
 
   const fetchData = async () => {
@@ -52,12 +48,12 @@ const DriverListActivities = ({ userId }: { userId: number }) => {
 
       const queryParams = userId ? `?user_id=${userId}` : "";
 
-      const response = await fetch(`/api/activities${queryParams}`);
+      const response = await fetch(`/api/requests${queryParams}`);
       const data = await response.json();
 
       if (response.ok) {
-        setActivities(data.data);
-        setActivitiesFilters(data.data);
+        setRequests(data.data);
+        setRequestsFilters(data.data);
       } else {
         console.error("Failed to fetch activities:", data.message);
       }
@@ -71,20 +67,20 @@ const DriverListActivities = ({ userId }: { userId: number }) => {
 
   return (
     <section>
-      <h1 className="text-xl font-medium mb-4">List your activities</h1>
+      <h1 className="text-xl font-medium mb-4">List your requests</h1>
       <div className="flex items-center">
         <Search value={textInput} setTextInput={setTextInput} />
         <div className="w-1/12 ps-2">
           <Link
-            href="/dashboard/activities/add"
+            href="/dashboard/requests/add"
             className="text-white bg-blue-600 hover:bg-blue-700 rounded-md text-[8px] sm:text-[12px] p-2 w-full"
           >
-            + Activity
+            + Request
           </Link>
         </div>
       </div>
-      <TableActivities
-        activitiesData={activitiesFilters}
+      <TableRequests
+        requestsData={requestsFilters}
         isLoading={isLoading}
         role={user.role}
       />
@@ -92,4 +88,4 @@ const DriverListActivities = ({ userId }: { userId: number }) => {
   );
 };
 
-export default DriverListActivities;
+export default DriverListRequest;

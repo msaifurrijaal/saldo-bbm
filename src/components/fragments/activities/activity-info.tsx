@@ -1,8 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import React from "react";
-import Button from "@/components/elements/button";
-import Approve from "./approve";
+import ApproveActivity from "./approve-activity";
 const ActivityInfo = async ({ activityId }: { activityId: string }) => {
   const data = await getDetailActivity(activityId);
   const session: any = await getServerSession(authOptions);
@@ -42,7 +41,7 @@ const ActivityInfo = async ({ activityId }: { activityId: string }) => {
       </p>
       {session?.user?.role === "admin" ? (
         <div>
-          <Approve activity={activity} />
+          <ApproveActivity activity={activity} />
         </div>
       ) : (
         <div></div>
